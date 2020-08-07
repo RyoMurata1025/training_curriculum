@@ -3,6 +3,7 @@ class CalendarsController < ApplicationController
   # １週間のカレンダーと予定が表示されるページ
   def index
     get_week
+    # @plans = Plan.all @plansは最終的に定義済みの@week_daysに代入され使われる為生成しなくていい
     @plan = Plan.new
   end
 
