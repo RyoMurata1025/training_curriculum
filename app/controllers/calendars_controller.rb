@@ -6,6 +6,12 @@ class CalendarsController < ApplicationController
     @plan = Plan.new
   end
 
+  # indexメソッドでnewアクションが行われている為以下は必要ない
+  # def new
+  #   @plan = Plan.new
+  # end
+  
+
   # 予定の保存
   def create
     Plan.create(plan_params)
@@ -15,7 +21,7 @@ class CalendarsController < ApplicationController
   private
 
   def plan_params
-    params.require(:calendars).permit(:date, :plan)
+    params.require(:plan).permit(:plan, :date)
   end
 
   def get_week
