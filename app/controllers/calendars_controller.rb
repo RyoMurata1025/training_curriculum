@@ -3,8 +3,15 @@ class CalendarsController < ApplicationController
   # １週間のカレンダーと予定が表示されるページ
   def index
     get_week
+    # @plans = Plan.all @plansは最終的に定義済みの@week_daysに代入され使われる為生成しなくていい
     @plan = Plan.new
   end
+
+  # indexメソッドでnewアクションが行われている為以下は必要ない
+  # def new
+  #   @plan = Plan.new
+  # end
+  
 
   # 予定の保存
   def create
@@ -15,11 +22,12 @@ class CalendarsController < ApplicationController
   private
 
   def plan_params
-    params.require(:calendars).permit(:date, :plan)
+    params.require(:plan).permit(:plan, :date)
   end
 
   def get_week
     wdays = ['(日)','(月)','(火)','(水)','(木)','(金)','(土)']
+    
 
     # Dateオブジェクトは、日付を保持しています。下記のように`.today.day`とすると、今日の日付を取得できます。
     @todays_date = Date.today
@@ -34,9 +42,8 @@ class CalendarsController < ApplicationController
       plan = @plans.map do |plan|
         plans.push(plan.plan) if plan.date == @todays_date + x
       end
-      days = { month: (@todays_date + x).month, date: (@todays_date+x).day, plans: plans}
+      days = { month: (@todays_date + x).month, date: (@todays_date+x).day, plans: plans, wdays: wdays[(@todays_date + x).wday]}
       @week_days.push(days)
     end
-
   end
 end
